@@ -1,0 +1,64 @@
+{
+  "profile": {
+    "name": "",
+    "email": "",
+    "phone": "",
+    "location": "Worldwide",
+    "willing_to_relocate": false,
+    "remote_preference": "remote_only"
+  },
+  "search": {
+    "job_titles": [
+      "Senior Accountant",
+      "Staff Accountant",
+      "Senior Financial Accountant",
+      "Accounting Manager",
+      "GL Accountant",
+      "Senior General Ledger Accountant"
+    ],
+    "locations": [
+      "Remote Worldwide",
+      "Remote Global",
+      "Remote International",
+      "Anywhere in the world"
+    ],
+    "exclude_keywords": [
+      "intern",
+      "junior",
+      "entry level",
+      "part-time",
+      "on-site only",
+      "in-office only",
+      "US only",
+      "USA only",
+      "United States only"
+    ],
+    "region_filter": "non-us-only",
+    "include_keywords": [
+      "remote",
+      "work from home",
+      "CPA",
+      "GAAP",
+      "IFRS",
+      "month-end close",
+      "reconciliation",
+      "financial reporting",
+      "general ledger"
+    ],
+    "salary_min": 60000,
+    "experience_years_min": 3,
+    "posted_within_days": 7
+  },
+  "platforms": [
+    "linkedin",
+    "indeed",
+    "glassdoor",
+    "ziprecruiter",
+    "remoteok",
+    "weworkremotely"
+  ],
+  "notifications": {
+    "new_jobs_found": true,
+    "application_reminders": true
+  }
+}

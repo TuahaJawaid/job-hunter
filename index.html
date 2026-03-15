@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Job Hunter — Senior Accountant Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #0a0e17;
+    --bg-card: #111827;
+    --bg-card-hover: #1a2332;
+    --bg-surface: #0f1520;
+    --accent-emerald: #34d399;
+    --accent-emerald-dim: #065f46;
+    --accent-amber: #fbbf24;
+    --accent-rose: #fb7185;
+    --accent-blue: #60a5fa;
+    --accent-violet: #a78bfa;
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --text-muted: #475569;
+    --border: #1e293b;
+    --border-focus: #334155;
+    --gradient-emerald: linear-gradient(135deg, #065f46, #059669);
+    --gradient-amber: linear-gradient(135deg, #78350f, #d97706);
+    --gradient-rose: linear-gradient(135deg, #881337, #e11d48);
+    --gradient-blue: linear-gradient(135deg, #1e3a5f, #3b82f6);
+    --shadow-glow: 0 0 40px rgba(52, 211, 153, 0.06);
+    --radius: 12px;
+    --radius-lg: 16px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', -apple-system, sans-serif;
+    background: var(--bg-deep);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ─── Ambient background ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background:
+      radial-gradient(ellipse at 20% 20%, rgba(52, 211, 153, 0.03) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(96, 165, 250, 0.03) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(167, 139, 250, 0.02) 0%, transparent 60%);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* ─── Grid noise texture ─── */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.015'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .app { position: relative; z-index: 1; }
+
+  /* ─── Header ─── */
+  .header {
+    padding: 32px 40px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    backdrop-filter: blur(20px);
+    background: rgba(10, 14, 23, 0.8);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header-left { display: flex; align-items: center; gap: 16px; }
+
+  .logo {
+    width: 44px; height: 44px;
+    background: var(--gradient-emerald);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 4px 12px rgba(52, 211, 153, 0.2);
+  }
+
+  .header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    font-weight: 400;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-emerald) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .header-subtitle {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 400;
+    margin-top: 2px;
+  }
+
+  .header-right { display: flex; align-items: center; gap: 12px; }
+
+  .last-updated {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .pulse-dot {
+    width: 8px; height: 8px;
+    background: var(--accent-emerald);
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 6px;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.4); }
+    50% { opacity: 0.7; box-shadow: 0 0 0 6px rgba(52, 211, 153, 0); }
+  }
+
+  .btn-refresh {
+    padding: 8px 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--accent-emerald);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .btn-refresh:hover {
+    background: var(--accent-emerald-dim);
+    border-color: var(--accent-emerald);
+  }
+
+  /* ─── Stats Bar ─── */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    padding: 20px 40px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: all 0.25s ease;
+  }
+
+  .stat-card:hover {
+    border-color: var(--border-focus);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-glow);
+  }
+
+  .stat-icon {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .stat-icon.emerald { background: rgba(52, 211, 153, 0.1); }
+  .stat-icon.amber { background: rgba(251, 191, 36, 0.1); }
+  .stat-icon.blue { background: rgba(96, 165, 250, 0.1); }
+  .stat-icon.rose { background: rgba(251, 113, 133, 0.1); }
+  .stat-icon.violet { background: rgba(167, 139, 250, 0.1); }
+
+  .stat-value {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+    margin-top: 2px;
+  }
+
+  /* ─── Controls ─── */
+  .controls {
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .search-box {
+    flex: 1;
+    min-width: 200px;
+    position: relative;
+  }
+
+  .search-box input {
+    width: 100%;
+    padding: 10px 16px 10px 40px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text-primary);
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .search-box input:focus { border-color: var(--accent-emerald); }
+
+  .search-box::before {
+    content: '⌕';
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 16px;
+    pointer-events: none;
+  }
+
+  .filter-btn {
+    padding: 10px 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+    white-space: nowrap;
+  }
+
+  .filter-btn:hover, .filter-btn.active {
+    border-color: var(--accent-emerald);
+    color: var(--accent-emerald);
+    background: rgba(52, 211, 153, 0.05);
+  }
+
+  .filter-btn.active { background: rgba(52, 211, 153, 0.1); }
+
+  .recent-toggle { border-color: var(--accent-amber); color: var(--accent-amber); }
+  .recent-toggle.active { background: rgba(251, 191, 36, 0.15); border-color: var(--accent-amber); color: var(--accent-amber); }
+  .recent-toggle:not(.active) { opacity: 0.5; border-color: var(--text-muted); color: var(--text-muted); }
+
+  .expired-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    background: rgba(251, 113, 133, 0.15);
+    color: var(--accent-rose);
+    margin-left: 8px;
+  }
+
+  .sort-select {
+    padding: 10px 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    outline: none;
+  }
+
+  .sort-select option { background: var(--bg-card); color: var(--text-primary); }
+
+  /* ─── Job Cards ─── */
+  .jobs-container {
+    padding: 0 40px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .job-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px 28px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 20px;
+    align-items: start;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    animation: slideIn 0.4s ease backwards;
+  }
+
+  .job-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--accent-emerald);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .job-card:hover {
+    border-color: var(--border-focus);
+    background: var(--bg-card-hover);
+    transform: translateX(2px);
+    box-shadow: var(--shadow-glow);
+  }
+
+  .job-card:hover::before { opacity: 1; }
+
+  .job-card.status-starred::before { opacity: 1; background: var(--accent-amber); }
+  .job-card.status-applied::before { opacity: 1; background: var(--accent-blue); }
+  .job-card.status-rejected::before { opacity: 1; background: var(--accent-rose); opacity: 0.5; }
+  .job-card.status-rejected { opacity: 0.5; }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .job-card:nth-child(1) { animation-delay: 0.05s; }
+  .job-card:nth-child(2) { animation-delay: 0.1s; }
+  .job-card:nth-child(3) { animation-delay: 0.15s; }
+  .job-card:nth-child(4) { animation-delay: 0.2s; }
+  .job-card:nth-child(5) { animation-delay: 0.25s; }
+  .job-card:nth-child(6) { animation-delay: 0.3s; }
+
+  .job-platform-badge {
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    font-family: 'JetBrains Mono', monospace;
+    white-space: nowrap;
+    margin-top: 4px;
+  }
+
+  .platform-linkedin { background: rgba(96, 165, 250, 0.12); color: var(--accent-blue); }
+  .platform-indeed { background: rgba(167, 139, 250, 0.12); color: var(--accent-violet); }
+  .platform-glassdoor { background: rgba(52, 211, 153, 0.12); color: var(--accent-emerald); }
+  .platform-ziprecruiter { background: rgba(251, 191, 36, 0.12); color: var(--accent-amber); }
+  .platform-weworkremotely { background: rgba(251, 191, 36, 0.12); color: var(--accent-amber); }
+  .platform-remote\.co, .platform-remoteco { background: rgba(96, 165, 250, 0.12); color: var(--accent-blue); }
+  .platform-remotive { background: rgba(167, 139, 250, 0.12); color: var(--accent-violet); }
+  .platform-wellfound { background: rgba(251, 113, 133, 0.12); color: var(--accent-rose); }
+  .platform-builtin { background: rgba(52, 211, 153, 0.12); color: var(--accent-emerald); }
+  .platform-dice { background: rgba(96, 165, 250, 0.12); color: var(--accent-blue); }
+  .platform-workingnomads { background: rgba(251, 191, 36, 0.12); color: var(--accent-amber); }
+  .platform-himalayas { background: rgba(167, 139, 250, 0.12); color: var(--accent-violet); }
+  .platform-remoteok { background: rgba(52, 211, 153, 0.12); color: var(--accent-emerald); }
+  .platform-flexjobs { background: rgba(251, 113, 133, 0.12); color: var(--accent-rose); }
+
+  .fallback-link {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    transition: all 0.2s;
+    margin-top: 4px;
+  }
+  .fallback-link:hover { color: var(--accent-emerald); background: rgba(52, 211, 153, 0.06); }
+
+  .job-main { min-width: 0; }
+
+  .job-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.3;
+    margin-bottom: 6px;
+  }
+
+  .job-company {
+    font-size: 14px;
+    color: var(--accent-emerald);
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+
+  .job-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+  }
+
+  .job-meta span { display: flex; align-items: center; gap: 5px; }
+
+  .job-description {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+
+  .job-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .job-tag {
+    padding: 3px 10px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  .job-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-end;
+    flex-shrink: 0;
+  }
+
+  .job-salary {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent-emerald);
+    font-family: 'JetBrains Mono', monospace;
+    white-space: nowrap;
+    text-align: right;
+    margin-bottom: 4px;
+  }
+
+  .action-btns { display: flex; gap: 6px; }
+
+  .action-btn {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--bg-surface);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    transition: all 0.2s;
+    color: var(--text-muted);
+  }
+
+  .action-btn:hover {
+    border-color: var(--border-focus);
+    transform: scale(1.08);
+  }
+
+  .action-btn.star:hover, .action-btn.star.active {
+    background: rgba(251, 191, 36, 0.15);
+    border-color: var(--accent-amber);
+    color: var(--accent-amber);
+  }
+
+  .action-btn.apply:hover {
+    background: rgba(52, 211, 153, 0.15);
+    border-color: var(--accent-emerald);
+    color: var(--accent-emerald);
+  }
+
+  .action-btn.reject:hover {
+    background: rgba(251, 113, 133, 0.1);
+    border-color: var(--accent-rose);
+    color: var(--accent-rose);
+  }
+
+  .action-btn.open:hover {
+    background: rgba(96, 165, 250, 0.1);
+    border-color: var(--accent-blue);
+    color: var(--accent-blue);
+  }
+
+  .posted-time {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+    text-align: right;
+  }
+
+  /* ─── Detail Modal ─── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+  }
+
+  .modal-overlay.active { display: flex; }
+
+  .modal {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 36px;
+    max-width: 640px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    animation: modalIn 0.3s ease;
+    position: relative;
+  }
+
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(0.95) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 16px; right: 16px;
+    width: 32px; height: 32px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-muted);
+    font-size: 18px;
+    transition: all 0.2s;
+  }
+
+  .modal-close:hover { border-color: var(--accent-rose); color: var(--accent-rose); }
+
+  .modal h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 24px;
+    margin-bottom: 8px;
+    padding-right: 40px;
+  }
+
+  .modal-company { color: var(--accent-emerald); font-weight: 500; margin-bottom: 16px; }
+
+  .modal-details { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+
+  .modal-detail {
+    display: flex; gap: 10px;
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+
+  .modal-detail-label {
+    color: var(--text-muted);
+    min-width: 100px;
+    font-weight: 500;
+  }
+
+  .modal-description {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    padding: 16px;
+    background: var(--bg-surface);
+    border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+
+  .modal-requirements h4 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+
+  .modal-requirements ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+
+  .modal-requirements li {
+    padding: 5px 12px;
+    background: rgba(52, 211, 153, 0.06);
+    border: 1px solid rgba(52, 211, 153, 0.15);
+    border-radius: 8px;
+    font-size: 12px;
+    color: var(--accent-emerald);
+  }
+
+  .modal-notes textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 12px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text-primary);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    resize: vertical;
+    outline: none;
+    margin-top: 8px;
+  }
+
+  .modal-notes textarea:focus { border-color: var(--accent-emerald); }
+
+  .modal-notes label {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .modal-btn {
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+    flex: 1;
+    text-align: center;
+  }
+
+  .modal-btn.primary {
+    background: var(--accent-emerald);
+    border-color: var(--accent-emerald);
+    color: #000;
+  }
+
+  .modal-btn.primary:hover { opacity: 0.9; transform: translateY(-1px); }
+
+  .modal-btn.secondary { background: var(--bg-surface); color: var(--text-secondary); }
+  .modal-btn.secondary:hover { border-color: var(--border-focus); }
+
+  .modal-btn.danger {
+    background: rgba(251, 113, 133, 0.1);
+    border-color: var(--accent-rose);
+    color: var(--accent-rose);
+  }
+
+  /* ─── Empty State ─── */
+  .empty-state {
+    text-align: center;
+    padding: 80px 40px;
+    color: var(--text-muted);
+  }
+
+  .empty-state-icon { font-size: 48px; margin-bottom: 16px; }
+  .empty-state h3 { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--text-secondary); margin-bottom: 8px; }
+
+  /* ─── Toast ─── */
+  .toast-container {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .toast {
+    padding: 12px 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--accent-emerald);
+    border-radius: 10px;
+    color: var(--accent-emerald);
+    font-size: 13px;
+    font-weight: 500;
+    animation: toastIn 0.3s ease, toastOut 0.3s ease 2.5s forwards;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  @keyframes toastIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes toastOut { from { opacity: 1; } to { opacity: 0; transform: translateY(-10px); } }
+
+  /* ─── Scrollbar ─── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--border-focus); }
+
+  /* ─── Responsive ─── */
+  @media (max-width: 768px) {
+    .header, .stats-bar, .controls, .jobs-container { padding-left: 16px; padding-right: 16px; }
+    .job-card { grid-template-columns: 1fr; gap: 12px; }
+    .job-actions { flex-direction: row; align-items: center; justify-content: space-between; width: 100%; }
+    .job-salary { text-align: left; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* ─── Deerflow Signature ─── */
+  .deerflow-sig {
+    position: fixed;
+    bottom: 14px;
+    left: 14px;
+    z-index: 50;
+    opacity: 0.25;
+    transition: opacity 0.3s;
+  }
+
+  .deerflow-sig:hover { opacity: 0.6; }
+
+  .deerflow-sig a {
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.5px;
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <!-- Header -->
+  <header class="header">
+    <div class="header-left">
+      <div class="logo">💼</div>
+      <div>
+        <h1>Job Hunter</h1>
+        <div class="header-subtitle">Senior Accountant — Remote Jobs Worldwide</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="last-updated">
+        <span class="pulse-dot"></span>
+        <span id="lastUpdated">Loading...</span>
+      </div>
+      <button class="btn-refresh" onclick="loadJobs()">↻ Refresh</button>
+    </div>
+  </header>
+
+  <!-- Stats -->
+  <div class="stats-bar">
+    <div class="stat-card">
+      <div class="stat-icon emerald">📋</div>
+      <div>
+        <div class="stat-value" id="statTotal">0</div>
+        <div class="stat-label">Total Jobs</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon amber">✨</div>
+      <div>
+        <div class="stat-value" id="statNew">0</div>
+        <div class="stat-label">New Today</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon amber">⭐</div>
+      <div>
+        <div class="stat-value" id="statStarred">0</div>
+        <div class="stat-label">Starred</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon blue">📨</div>
+      <div>
+        <div class="stat-value" id="statApplied">0</div>
+        <div class="stat-label">Applied</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon rose">🚫</div>
+      <div>
+        <div class="stat-value" id="statRejected">0</div>
+        <div class="stat-label">Dismissed</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="controls">
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search jobs by title, company, location..." oninput="renderJobs()">
+    </div>
+    <button class="filter-btn active" data-filter="all" onclick="setFilter('all', this)">All</button>
+    <button class="filter-btn" data-filter="new" onclick="setFilter('new', this)">New</button>
+    <button class="filter-btn" data-filter="starred" onclick="setFilter('starred', this)">⭐ Starred</button>
+    <button class="filter-btn" data-filter="applied" onclick="setFilter('applied', this)">Applied</button>
+    <button class="filter-btn recent-toggle active" id="recentToggle" onclick="toggleRecent(this)">🕐 Recent Only</button>
+    <select class="sort-select" id="sortSelect" onchange="renderJobs()">
+      <option value="date-desc">Newest First</option>
+      <option value="date-asc">Oldest First</option>
+      <option value="salary-desc">Highest Salary</option>
+      <option value="company-asc">Company A-Z</option>
+    </select>
+  </div>
+
+  <!-- Jobs -->
+  <div class="jobs-container" id="jobsContainer">
+    <div class="empty-state">
+      <div class="empty-state-icon">🔍</div>
+      <h3>Loading jobs...</h3>
+    </div>
+  </div>
+</div>
+
+<!-- Detail Modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this) closeModal()">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- Deerflow -->
+<div class="deerflow-sig"><a href="https://deerflow.tech" target="_blank">✦ Deerflow</a></div>
+
+<script>
+// ─── State ───────────────────────────────────────────────────────
+const EMBEDDED_DATA = {"jobs":[{"id":"e8cd4f260492","title":"Senior Accountant","company":"LEARN Behavioral","location":"Remote","salary":"Not listed","platform":"remotive","url":"https://remotive.com/remote/jobs/finance/senior-accountant-3993928","description":"Senior Accountant role at a behavioral health organization focused on financial reporting and accounting operations.","found_date":"2026-03-15T16:44:16.163224","search_query":"Senior Accountant Remote","status":"new","notes":"","requirements":["Strong GAAP knowledge","Progressive accounting experience"],"job_type":"Full-time","posted_date":"2026-03-15"},{"id":"287980519733","title":"Senior Accountant General Ledger - CTBC","company":"Continental","location":"Remote","salary":"Not listed","platform":"himalayas","url":"https://himalayas.app/companies/continental/jobs/senior-accountant-general-ledger-ctbc","description":"Senior General Ledger Accountant role focused on GL accounting functions at a major automotive technology company.","found_date":"2026-03-15T16:44:16.166758","search_query":"Senior Accountant Remote","status":"new","notes":"","requirements":["General Ledger expertise","Senior-level accounting experience","GL reconciliation skills"],"job_type":"Full-time","posted_date":"2026-03-15"},{"id":"d445343a87b7","title":"Senior Accountant","company":"inDinero Inc.","location":"Remote (Philippines)","salary":"$65,000","platform":"remotive","url":"https://remotive.com/remote/jobs/finance/senior-accountant-3825055","description":"Senior Accountant role at inDinero, a company providing outsourced accounting and tax services to startups and small businesses.","found_date":"2026-03-15T16:44:16.166761","search_query":"Senior Accountant Remote","status":"new","notes":"","requirements":["Senior-level accounting experience","Strong GAAP knowledge","Client-facing accounting skills"],"job_type":"Full-time","posted_date":"2026-03-15"},{"id":"d0e1f2a3b4c5","title":"Senior Accountant","company":"Close","location":"Remote \u2014 Worldwide","salary":"Competitive (remote-first SaaS)","platform":"weworkremotely","url":"https://weworkremotely.com/remote-jobs/close-senior-accountant","description":"Remote-first SaaS CRM company hiring a Senior Accountant to oversee all accounting and compliance functions including month-end close, GL, AP, payroll, sales tax, and billing.","found_date":"2026-03-15T10:09:00","search_query":"Senior Accountant Remote SaaS","status":"new","notes":"","requirements":["5+ years progressive accounting experience","ASC 606 SaaS revenue recognition","Advanced Excel, SQL a plus","SaaS financial tools & automation","High autonomy self-starter"],"job_type":"Full-time","posted_date":"2026-03-10"},{"id":"c3d4e5f6a7b8","title":"Senior Accountant","company":"Kraken Digital Asset Exchange","location":"Remote \u2014 Global (70+ countries)","salary":"$63,000 \u2013 $126,000/year + equity + bonus","platform":"glassdoor","url":"https://www.glassdoor.com/job-listing/senior-accountant-kraken-digital-asset-exchange-JV_KO0,17_KE18,47.htm?jl=1009942434869","description":"Handle month-end accrual preparation, commission accruals and reconciliation, financial statement flux analysis, and audit schedule preparation. Includes equity, bonus, and wellness allowance.","found_date":"2026-03-15T10:02:00","search_query":"Senior Accountant Remote Global","status":"new","notes":"","requirements":["Month-end close & accruals","US GAAP knowledge","Audit schedule preparation","Cross-functional collaboration","Crypto/fintech experience a plus"],"job_type":"Full-time","posted_date":"2026-03-09"},{"id":"0d2278e234ba","title":"IFRS Accountant with Multiple Jurisdiction Experience","company":"Flag Theory","location":"Remote - Europe Timezone (worldwide, preference for European timezone)","salary":"Not listed","platform":"weworkremotely","url":"https://weworkremotely.com/remote-jobs/flag-theory-ifrs-accountant-with-multiple-jurisdiction-experience","description":"Prepare and process financial statements in accordance with IFRS for foreign clients in different jurisdictions. Ensure compliance with local and international financial regulations, assist in tax preparation and filing, and collaborate with auditors.","found_date":"2026-03-15T16:53:23.763568","search_query":"Senior Accountant Remote Worldwide","status":"new","notes":"","requirements":["Minimum 3 years of accounting experience","Knowledge of IFRS","Proficiency in Excel","Regulatory compliance experience","Familiarity with accounting software (Xero or QuickBooks)","Fluency in English","Located in European timezone at least 11 months per year (preferred)"],"job_type":"Full-time","posted_date":"2026-03-01"},{"id":"1b4d35f022f0","title":"Senior Accountant","company":"Safeguard Global","location":"Remote - Worldwide (170+ countries)","salary":"Not listed","platform":"himalayas","url":"https://himalayas.app/companies/safeguard-global/jobs/senior-accountant-7230969587","description":"Manage financial reporting and compliance for Safeguard Global entities. Ensure accurate financial reporting, maintain compliance with international accounting standards, oversee general ledger activities, reconciliations, and journal entries. Partner cross-functionally with Finance, Payroll, and Operations teams.","found_date":"2026-03-15T16:53:23.763581","search_query":"Senior Accountant Remote Worldwide","status":"new","notes":"","requirements":["Experience with financial accounting and balance sheet reconciliations","Excellent communication skills including English language","Data analysis skills","Advanced Excel skills","International accounting standards knowledge"],"job_type":"Full-time","posted_date":"2026-03-01"},{"id":"00d22b003dd9","title":"Accountant","company":"n8n.io","location":"Remote - Germany / Europe (visa sponsorship available for Germany)","salary":"Not listed","platform":"wellfound","url":"https://wellfound.com/jobs/3355833-accountant","description":"Ensure accurate, timely, and scalable accounting operations supporting n8n's growth. Coordinate and own monthly closings and annual financial statements for this workflow automation platform. Shape financial operations for scale with potential to grow into a team lead role. Remote-first, autonomous team.","found_date":"2026-03-15T16:53:23.763587","search_query":"Senior Accountant Remote Worldwide","status":"new","notes":"","requirements":["Accounting experience","Monthly closing and annual financial statement experience","English proficiency (company language)","Existing right to work in your country (unless Germany, where visa sponsorship is available)","30 days vacation plus public holidays (Europe)"],"job_type":"Full-time","posted_date":"2026-03-01"},{"id":"9ede12e4927d","title":"Accountant | Work from Home | Global Firm","company":"UpCounting","location":"Remote - Worldwide (open to all countries)","salary":"Not listed","platform":"himalayas","url":"https://himalayas.app/companies/upcounting/jobs/accountant-work-from-home-global-firm-north-american-clients","description":"Support Accounting Managers and Controllers in maintaining reliable financials for eCommerce and digital-first businesses. Fully remote organization working async across multiple timezones. Open to candidates from all countries. Flexible working between 7am-7pm EST.","found_date":"2026-03-15T16:53:23.763594","search_query":"Senior Accountant Remote Worldwide","status":"new","notes":"","requirements":["Clean, accurate bookkeeping skills","Experience supporting Accounting Managers and Controllers","Ability to work asynchronously across timezones","Available during flexible hours within 7am-7pm EST window"],"job_type":"Full-time","posted_date":"2026-03-01"},{"id":"737a26a37d58","title":"Senior Accountant","company":"Assistantly","location":"Remote - Colombia / Latin America","salary":"Not listed","platform":"himalayas","url":"https://himalayas.app/companies/assistantly/jobs/senior-accountant-9310552573","description":"Embedded directly with growth-stage businesses and leadership teams. Support fast-scaling businesses across accounting, reporting, analytics, and process improvement. Work independently with minimal onboarding. Benefits include health expense allowances, PTO, and profit sharing.","found_date":"2026-03-15T16:53:23.763599","search_query":"Senior Accountant Remote Worldwide","status":"new","notes":"","requirements":["3+ years senior-level accounting experience with hands-on technical depth","Ability to operate independently with minimal onboarding","Strong experience with technical accounting concepts (accruals, revenue recognition, leases)","Advanced Excel skills (XLOOKUP/VLOOKUP, INDEX/MATCH, SUMIFS, pivot tables)","Power BI experience beyond pulling reports","Comfort working in fast-paced, high-expectation environments"],"job_type":"Full-time","posted_date":"2026-03-01"},{"id":"0559a2f45991","title":"Senior Accountant","company":"Elevate and Delegate","location":"Remote - Worldwide","salary":"Not listed","platform":"himalayas","url":"https://himalayas.app/companies/elevate-and-delegate/jobs/senior-accountant","description":"Serve as right hand to the CFO, overseeing daily accounting operations, managing team performance, driving financial planning, and providing timely, accurate reporting and analysis. Strategic headhunting agency connecting businesses with high-performance remote talent.","found_date":"2026-03-15T16:53:23.763601","search_query":"Senior Accountant Remote Worldwide","status":"new","notes":"","requirements":["Senior accounting experience","Detail-oriented with people management skills","Confident in managing people and processes","Well-versed in QuickBooks and Excel","Financial planning and analysis experience"],"job_type":"Full-time","posted_date":"2026-03-01"},{"id":"a04e956c70d7","title":"Remote Accountant with IFRS Expertise for IPO Preparation","company":"Get It Recruit - Finance","location":"Remote - Worldwide","salary":"Not listed","platform":"linkedin","url":"https://www.linkedin.com/jobs/view/remote-accountant-with-ifrs-expertise-for-ipo-preparation-at-get-it-recruit-finance-4035283814","description":"Remote accountant position requiring IFRS expertise focused on IPO preparation. Financial reporting and compliance role supporting companies preparing for public offerings.","found_date":"2026-03-15T16:53:23.763604","search_query":"Senior Accountant Remote Worldwide","status":"new","notes":"","requirements":["IFRS expertise","IPO preparation experience","Financial reporting skills","Compliance knowledge"],"job_type":"Full-time","posted_date":"2026-03-01"},{"id":"063bbf3694e9","title":"Senior Accountant","company":"HeadQuarters","location":"Remote - Worldwide","salary":"Not listed","platform":"himalayas","url":"https://himalayas.app/companies/headquarters/jobs/senior-accountant-3131759579","description":"Remote Senior Accountant position at HeadQuarters, a company offering remote staffing solutions. Full work-from-home arrangement.","found_date":"2026-03-15T16:53:23.763607","search_query":"Senior Accountant Remote Worldwide","status":"new","notes":"","requirements":["Senior-level accounting experience","Remote work capability","Financial reporting skills"],"job_type":"Full-time","posted_date":"2026-03-01"},{"id":"pixellu001","title":"Senior Accountant","company":"Pixellu","location":"Remote \u2014 Worldwide","salary":"~$40,000/year","platform":"weworkremotely","url":"https://weworkremotely.com/remote-jobs/pixellu-senior-accountant","description":"Software company seeking a talented, detail-oriented individual to join their accounting team. Fully remote, global hire.","found_date":"2026-03-15T15:03:00","search_query":"Senior Accountant Remote","status":"new","notes":"","requirements":["Accounting experience","Detail-oriented","Software/tech industry a plus","Self-starter","Strong analytical skills"],"job_type":"Full-time","posted_date":"2026-02-20"},{"id":"9777dd20d7bf","title":"Senior Accountant","company":"VirtueStaff","location":"Remote - Pakistan","salary":"Not listed","platform":"himalayas","url":"https://himalayas.app/companies/virtuestaff/jobs/senior-accountant-4573156783","description":"Manage high-level accounting duties including core bookkeeping, AP/AR, and financial control responsibilities. Oversee month-end and year-end close, handle Purchase Order processes, expense management, and client account auditing. Report directly to CFO and executive leadership.","found_date":"2026-03-15T16:53:23.763597","search_query":"Senior Accountant Remote Worldwide","status":"new","notes":"","requirements":["Thorough, independent experience in a controller-type role","Comfortable managing all aspects of the accounting cycle","AP and AR management experience","Weekly and detailed financial reporting skills","Direct CFO reporting experience"],"job_type":"Full-time","posted_date":"2026-01-15"},{"id":"deel001","title":"Senior Accountant I","company":"Deel","location":"Remote \u2014 Worldwide","salary":"Not listed","platform":"himalayas","url":"https://himalayas.app/companies/deel/jobs/senior-accountant-i","description":"Global payroll and HR platform hiring a Senior Accountant. Fast-growing unicorn company with fully distributed team across 100+ countries.","requirements":["3+ years accounting","Multi-currency accounting","SaaS/tech company experience","GAAP & IFRS knowledge","High-growth company experience"],"job_type":"Full-time","posted_date":"2026-01-10","found_date":"2026-03-15T15:20:00","search_query":"Senior Accountant Remote","status":"new","notes":""}],"last_updated":"2026-03-15T16:53:23.763610","total_searches":5};
+
+let jobsDb = JSON.parse(JSON.stringify(EMBEDDED_DATA));
+let currentFilter = 'all';
+let recentOnly = true; // Default: hide jobs older than 30 days
+
+// ─── Load ────────────────────────────────────────────────────────
+async function loadJobs() {
+  // First try to load from saved state, fall back to embedded data
+  try {
+    const saved = localStorage.getItem('jobHunterDb');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (parsed.jobs && parsed.jobs.length >= EMBEDDED_DATA.jobs.length) {
+        jobsDb = parsed;
+      }
+    }
+  } catch(e) {}
+
+  // If jobsDb is still the initial empty state, use embedded
+  if (!jobsDb.jobs || jobsDb.jobs.length === 0) {
+    jobsDb = JSON.parse(JSON.stringify(EMBEDDED_DATA));
+  }
+
+  updateStats();
+  renderJobs();
+  updateLastUpdated();
+}
+
+function updateLastUpdated() {
+  const el = document.getElementById('lastUpdated');
+  if (jobsDb.last_updated) {
+    const d = new Date(jobsDb.last_updated);
+    el.textContent = 'Updated ' + d.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+  } else {
+    el.textContent = 'Not yet synced';
+  }
+}
+
+function updateStats() {
+  const jobs = jobsDb.jobs || [];
+  const recentJobs = jobs.filter(j => !isJobExpired(j));
+  const today = new Date().toISOString().slice(0, 10);
+  document.getElementById('statTotal').textContent = recentOnly ? recentJobs.length : jobs.length;
+  document.getElementById('statNew').textContent = jobs.filter(j => (j.found_date || '').slice(0, 10) === today).length;
+  document.getElementById('statStarred').textContent = jobs.filter(j => j.status === 'starred').length;
+  document.getElementById('statApplied').textContent = jobs.filter(j => j.status === 'applied').length;
+  document.getElementById('statRejected').textContent = jobs.filter(j => j.status === 'rejected').length;
+}
+
+// ─── Filters & Sort ─────────────────────────────────────────────
+function setFilter(filter, btn) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-btn:not(.recent-toggle)').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderJobs();
+}
+
+function toggleRecent(btn) {
+  recentOnly = !recentOnly;
+  btn.classList.toggle('active', recentOnly);
+  updateStats();
+  renderJobs();
+}
+
+function isJobExpired(job) {
+  const now = new Date();
+  const cutoff = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000); // 30 days ago
+  const postedDate = job.posted_date ? new Date(job.posted_date) : null;
+  const foundDate = job.found_date ? new Date(job.found_date) : null;
+  const refDate = postedDate || foundDate;
+  if (!refDate) return true; // No date = treat as expired
+  return refDate < cutoff;
+}
+
+function getFilteredJobs() {
+  let jobs = [...(jobsDb.jobs || [])];
+  const search = document.getElementById('searchInput').value.toLowerCase();
+
+  // Filter out expired jobs when "Recent Only" is active
+  if (recentOnly) {
+    jobs = jobs.filter(j => !isJobExpired(j));
+  }
+
+  // Filter by status
+  if (currentFilter !== 'all') {
+    jobs = jobs.filter(j => j.status === currentFilter);
+  }
+
+  // Filter by search
+  if (search) {
+    jobs = jobs.filter(j =>
+      (j.title || '').toLowerCase().includes(search) ||
+      (j.company || '').toLowerCase().includes(search) ||
+      (j.location || '').toLowerCase().includes(search) ||
+      (j.description || '').toLowerCase().includes(search)
+    );
+  }
+
+  // Sort
+  const sort = document.getElementById('sortSelect').value;
+  switch (sort) {
+    case 'date-desc': jobs.sort((a, b) => (b.found_date || '').localeCompare(a.found_date || '')); break;
+    case 'date-asc': jobs.sort((a, b) => (a.found_date || '').localeCompare(b.found_date || '')); break;
+    case 'salary-desc': jobs.sort((a, b) => extractSalary(b.salary) - extractSalary(a.salary)); break;
+    case 'company-asc': jobs.sort((a, b) => (a.company || '').localeCompare(b.company || '')); break;
+  }
+
+  return jobs;
+}
+
+function getFreshnessBadge(job) {
+  const now = new Date();
+  const posted = job.posted_date ? new Date(job.posted_date) : null;
+  if (!posted) return '';
+  const daysAgo = Math.floor((now - posted) / (24 * 60 * 60 * 1000));
+  if (daysAgo <= 3) return '<span class="expired-badge" style="background:rgba(52,211,153,0.15);color:var(--accent-emerald)">Fresh</span>';
+  if (daysAgo <= 7) return '<span class="expired-badge" style="background:rgba(96,165,250,0.15);color:var(--accent-blue)">This week</span>';
+  if (daysAgo <= 14) return '';
+  if (daysAgo <= 30) return '<span class="expired-badge" style="background:rgba(251,191,36,0.15);color:var(--accent-amber)">Aging</span>';
+  return '<span class="expired-badge">Expired</span>';
+}
+
+function extractSalary(s) {
+  if (!s) return 0;
+  const matches = s.match(/[\d,]+/g);
+  if (!matches) return 0;
+  return parseInt(matches[0].replace(/,/g, '')) || 0;
+}
+
+// ─── Render ─────────────────────────────────────────────────────
+function renderJobs() {
+  const container = document.getElementById('jobsContainer');
+  const jobs = getFilteredJobs();
+
+  if (jobs.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon">🔍</div>
+        <h3>No jobs match your filters</h3>
+        <p>Try adjusting your search or filters</p>
+      </div>`;
+    return;
+  }
+
+  container.innerHTML = jobs.map((job, i) => `
+    <div class="job-card status-${job.status}" onclick="openModal('${job.id}')" style="animation-delay: ${i * 0.04}s">
+      <div>
+        <div class="job-platform-badge platform-${job.platform.replace(/\./g, '')}">${job.platform}</div>
+      </div>
+      <div class="job-main">
+        <div class="job-title">${esc(job.title)}</div>
+        <div class="job-company">${esc(job.company)}</div>
+        <div class="job-meta">
+          <span>📍 ${esc(job.location)}</span>
+          <span>💼 ${esc(job.job_type || 'Full-time')}</span>
+          ${job.posted_date ? `<span>📅 Posted ${formatDate(job.posted_date)}${getFreshnessBadge(job)}</span>` : ''}
+        </div>
+        <div class="job-description">${esc(job.description)}</div>
+        <div class="job-tags">
+          ${(job.requirements || []).slice(0, 4).map(r => `<span class="job-tag">${esc(r)}</span>`).join('')}
+        </div>
+      </div>
+      <div class="job-actions">
+        <div class="job-salary">${esc(job.salary)}</div>
+        <div class="action-btns">
+          <button class="action-btn star ${job.status === 'starred' ? 'active' : ''}" onclick="event.stopPropagation(); toggleStar('${job.id}')" title="Star">⭐</button>
+          <button class="action-btn apply" onclick="event.stopPropagation(); markApplied('${job.id}')" title="Mark Applied">✓</button>
+          <button class="action-btn open" onclick="event.stopPropagation(); openJobDirect('${job.id}')" title="Open Listing">↗</button>
+          <button class="action-btn reject" onclick="event.stopPropagation(); dismiss('${job.id}')" title="Dismiss">✕</button>
+        </div>
+        <div class="posted-time">${timeAgo(job.found_date)}</div>
+        <a class="fallback-link" href="#" onclick="event.preventDefault(); event.stopPropagation(); openJobSearch('${job.id}')" title="Google search for this exact job">🔍 Google this job</a>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ─── Actions ────────────────────────────────────────────────────
+function toggleStar(id) {
+  const job = jobsDb.jobs.find(j => j.id === id);
+  if (!job) return;
+  job.status = job.status === 'starred' ? 'new' : 'starred';
+  saveDb();
+  showToast(job.status === 'starred' ? `⭐ Starred: ${job.title}` : `Unstarred: ${job.title}`);
+  updateStats();
+  renderJobs();
+}
+
+function markApplied(id) {
+  const job = jobsDb.jobs.find(j => j.id === id);
+  if (!job) return;
+  job.status = 'applied';
+  job.applied_date = new Date().toISOString();
+  saveDb();
+  showToast(`📨 Marked as applied: ${job.title}`);
+  updateStats();
+  renderJobs();
+}
+
+function dismiss(id) {
+  const job = jobsDb.jobs.find(j => j.id === id);
+  if (!job) return;
+  job.status = 'rejected';
+  saveDb();
+  showToast(`Dismissed: ${job.title}`);
+  updateStats();
+  renderJobs();
+}
+
+// ─── Platform Fallback URLs (always work, never break) ─────────
+const PLATFORM_SEARCH_URLS = {
+  linkedin: 'https://www.linkedin.com/jobs/search/?keywords=Senior+Accountant&f_WT=2&sortBy=DD',
+  indeed: 'https://www.indeed.com/jobs?q=Senior+Accountant+Remote&l=Remote&sort=date',
+  glassdoor: 'https://www.glassdoor.com/Job/remote-senior-accountant-jobs-SRCH_IL.0,6_IS11047_KO7,24.htm',
+  ziprecruiter: 'https://www.ziprecruiter.com/Jobs/Remote-Senior-Accountant',
+  weworkremotely: 'https://weworkremotely.com/categories/remote-management-and-finance-jobs',
+  'remote.co': 'https://remote.co/remote-jobs/accounting',
+  remotive: 'https://remotive.com/remote/jobs/finance',
+  wellfound: 'https://wellfound.com/role/r/accountant',
+  builtin: 'https://builtin.com/jobs/remote/finance/search/senior-accountant',
+  dice: 'https://www.dice.com/jobs/q-senior+accountant+remote-jobs',
+  workingnomads: 'https://www.workingnomads.com/remote-accounting-jobs',
+  himalayas: 'https://himalayas.app/jobs/senior-accountant',
+  remoteok: 'https://remoteok.com/remote-accounting-jobs',
+  flexjobs: 'https://www.flexjobs.com/remote-jobs/senior-accountant'
+};
+
+function getFallbackUrl(platform) {
+  return PLATFORM_SEARCH_URLS[platform] || PLATFORM_SEARCH_URLS.linkedin;
+}
+
+// Build a Google search URL for a specific job — this NEVER breaks
+function getJobSearchUrl(job) {
+  const q = encodeURIComponent((job.title || '') + ' ' + (job.company || '') + ' remote job apply');
+  return 'https://www.google.com/search?q=' + q;
+}
+
+function openLink(url, platform) {
+  if (url) {
+    window.open(url, '_blank', 'noopener,noreferrer');
+  } else if (platform) {
+    window.open(getFallbackUrl(platform), '_blank', 'noopener,noreferrer');
+  }
+}
+
+function openJobDirect(jobId) {
+  const job = jobsDb.jobs.find(j => j.id === jobId);
+  if (!job) return;
+  // For LinkedIn: use Google search instead of direct link (LinkedIn requires login)
+  if (job.platform === 'linkedin') {
+    window.open(getJobSearchUrl(job), '_blank', 'noopener,noreferrer');
+  } else {
+    window.open(job.url || getJobSearchUrl(job), '_blank', 'noopener,noreferrer');
+  }
+}
+
+function openJobSearch(jobId) {
+  const job = jobsDb.jobs.find(j => j.id === jobId);
+  if (!job) return;
+  window.open(getJobSearchUrl(job), '_blank', 'noopener,noreferrer');
+}
+
+function openFallback(platform) {
+  window.open(getFallbackUrl(platform), '_blank', 'noopener,noreferrer');
+}
+
+// ─── Modal ──────────────────────────────────────────────────────
+function openModal(id) {
+  const job = jobsDb.jobs.find(j => j.id === id);
+  if (!job) return;
+
+  const content = document.getElementById('modalContent');
+  content.innerHTML = `
+    <h2>${esc(job.title)}</h2>
+    <div class="modal-company">${esc(job.company)}</div>
+    <div class="modal-details">
+      <div class="modal-detail"><span class="modal-detail-label">📍 Location</span><span>${esc(job.location)}</span></div>
+      <div class="modal-detail"><span class="modal-detail-label">💰 Salary</span><span style="color:var(--accent-emerald);font-weight:600">${esc(job.salary)}</span></div>
+      <div class="modal-detail"><span class="modal-detail-label">💼 Type</span><span>${esc(job.job_type || 'Full-time')}</span></div>
+      <div class="modal-detail"><span class="modal-detail-label">🌐 Platform</span><span style="text-transform:capitalize">${esc(job.platform)}</span></div>
+      <div class="modal-detail"><span class="modal-detail-label">📅 Posted</span><span>${job.posted_date ? formatDate(job.posted_date) : 'N/A'}</span></div>
+      <div class="modal-detail"><span class="modal-detail-label">🏷 Status</span><span style="text-transform:capitalize">${esc(job.status)}</span></div>
+    </div>
+    <div class="modal-description">${esc(job.description)}</div>
+    ${job.requirements && job.requirements.length ? `
+    <div class="modal-requirements">
+      <h4>Requirements</h4>
+      <ul>${job.requirements.map(r => `<li>${esc(r)}</li>`).join('')}</ul>
+    </div>` : ''}
+    <div class="modal-notes">
+      <label>Personal Notes</label>
+      <textarea id="modalNotes" placeholder="Add notes about this position..." onchange="saveNote('${job.id}', this.value)">${esc(job.notes || '')}</textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn primary" onclick="openJobDirect('${job.id}')">↗ View Job Listing</button>
+      <button class="modal-btn secondary" onclick="openJobSearch('${job.id}')">🔍 Google This Job</button>
+    </div>
+    <div class="modal-actions" style="margin-top:8px">
+      <button class="modal-btn secondary" onclick="toggleStar('${job.id}'); closeModal()">⭐ ${job.status === 'starred' ? 'Unstar' : 'Star'}</button>
+      <button class="modal-btn secondary" onclick="markApplied('${job.id}'); closeModal()">✓ Applied</button>
+    </div>
+    <div style="margin-top:12px;text-align:center;font-size:11px;color:var(--text-muted)">
+      "View Job" opens the listing directly. If it needs login or has expired, use "Google This Job" — it always works.
+    </div>
+  `;
+
+  document.getElementById('modalOverlay').classList.add('active');
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('active');
+}
+
+function saveNote(id, note) {
+  const job = jobsDb.jobs.find(j => j.id === id);
+  if (job) {
+    job.notes = note;
+    saveDb();
+  }
+}
+
+// ─── Persistence ────────────────────────────────────────────────
+function saveDb() {
+  jobsDb.last_updated = new Date().toISOString();
+  try {
+    localStorage.setItem('jobHunterDb', JSON.stringify(jobsDb));
+  } catch (e) {
+    // localStorage might not be available
+  }
+}
+
+// ─── Helpers ────────────────────────────────────────────────────
+function esc(s) {
+  if (!s) return '';
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+function formatDate(d) {
+  if (!d) return '';
+  const date = new Date(d);
+  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+}
+
+function timeAgo(dateStr) {
+  if (!dateStr) return '';
+  const now = new Date();
+  const then = new Date(dateStr);
+  const diffMs = now - then;
+  const diffH = Math.floor(diffMs / 3600000);
+  const diffD = Math.floor(diffMs / 86400000);
+  if (diffH < 1) return 'Just now';
+  if (diffH < 24) return `${diffH}h ago`;
+  if (diffD < 7) return `${diffD}d ago`;
+  return formatDate(dateStr);
+}
+
+function showToast(msg) {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.textContent = msg;
+  container.appendChild(toast);
+  setTimeout(() => toast.remove(), 3000);
+}
+
+// ─── Keyboard shortcuts ─────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+  if (e.key === '/' && !e.ctrlKey && !e.metaKey && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+    e.preventDefault();
+    document.getElementById('searchInput').focus();
+  }
+});
+
+// ─── Init ────────────────────────────────────────────────────────
+loadJobs();
+</script>
+
+</body>
+</html>
