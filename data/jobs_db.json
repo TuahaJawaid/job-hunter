@@ -1,26 +1,6 @@
 {
   "jobs": [
     {
-      "id": "e8cd4f260492",
-      "title": "Senior Accountant",
-      "company": "LEARN Behavioral",
-      "location": "Remote",
-      "salary": "Not listed",
-      "platform": "remotive",
-      "url": "https://remotive.com/remote/jobs/finance/senior-accountant-3993928",
-      "description": "Senior Accountant role at a behavioral health organization focused on financial reporting and accounting operations.",
-      "found_date": "2026-03-15T16:44:16.163224",
-      "search_query": "Senior Accountant Remote",
-      "status": "new",
-      "notes": "",
-      "requirements": [
-        "Strong GAAP knowledge",
-        "Progressive accounting experience"
-      ],
-      "job_type": "Full-time",
-      "posted_date": "2026-03-15"
-    },
-    {
       "id": "287980519733",
       "title": "Senior Accountant General Ledger - CTBC",
       "company": "Continental",
@@ -469,30 +449,6 @@
       "posted_date": "2026-03-01"
     },
     {
-      "id": "4aa84e375c1e",
-      "title": "Revenue Accounting Manager",
-      "company": "ClickHouse",
-      "location": "Remote - USA (company operates in 20 countries globally)",
-      "salary": "$90,100 - $156,000 USD",
-      "platform": "remotive",
-      "url": "https://remotive.com/remote/jobs/finance/revenue-accounting-manager-2729932",
-      "description": "Own and manage all aspects of revenue accounting ensuring compliance with U.S. GAAP (ASC 606). Lead month-end and quarter-end revenue close process including contract review and revenue recognition. Work cross-functionally with Sales, Legal, FP&A, and Operations. ClickHouse is an open-source database company operating in 20 countries.",
-      "found_date": "2026-03-15T17:25:37.278336",
-      "search_query": "Revenue Accountant Remote Worldwide",
-      "status": "new",
-      "notes": "",
-      "requirements": [
-        "CPA required",
-        "Deep understanding of U",
-        "GAAP and ASC 606",
-        "Big Four public accounting experience strongly preferred",
-        "Experience with NetSuite, Zuora, or Salesforce CPQ",
-        "NOTE: Listed as USA location but company is globally distributed - verify eligibility for non-US candidates"
-      ],
-      "job_type": "Full-time",
-      "posted_date": "2026-03-01"
-    },
-    {
       "id": "547a5626d389",
       "title": "Multi-Jurisdiction Accounting for International Client Portfolio (Europe)",
       "company": "Flag Theory",
@@ -578,27 +534,6 @@
       "posted_date": "2026-02-20"
     },
     {
-      "id": "47dc42f5502d",
-      "title": "Lead Revenue Accountant",
-      "company": "Ocient",
-      "location": "Remote - USA or India",
-      "salary": "$105,000 - $130,000",
-      "platform": "remotive",
-      "url": "https://remotive.com/remote-jobs/finance-legal/lead-revenue-accountant-2052280",
-      "description": "Lead revenue accountant for a hyperscale data solutions company. Responsible for ASC 606 compliance, booking journal entries, evaluating revenue contracts, and drafting financial statements including footnotes. Remote-first company with employees worldwide.",
-      "found_date": "2026-03-15T17:25:37.278287",
-      "search_query": "Revenue Accountant Remote Worldwide",
-      "status": "new",
-      "notes": "",
-      "requirements": [
-        "4+ years of experience with ASC 606, particularly with software companies",
-        "Experience with NetSuite Advanced Revenue Management required",
-        "Experience drafting financial statements and footnotes"
-      ],
-      "job_type": "Full-time",
-      "posted_date": "2026-02-15"
-    },
-    {
       "id": "ee3199534e40",
       "title": "Staff Accountant",
       "company": "Eyeo",
@@ -681,52 +616,123 @@
       "posted_date": "2026-02-15"
     },
     {
-      "id": "9777dd20d7bf",
-      "title": "Senior Accountant",
-      "company": "VirtueStaff",
-      "location": "Remote - Pakistan",
-      "salary": "Not listed",
+      "id": "3f7a1b2c4d5e",
+      "title": "Senior Accountant (EU Accounting Team)",
+      "company": "Semrush",
+      "location": "Remote - Poland (supporting Polish and Serbian entities)",
+      "salary": "Not disclosed",
+      "platform": "remotive",
+      "url": "https://remotive.com/remote/jobs/finance/senior-accountant-3659196",
+      "description": "Support the month-end close process primarily for Polish and Serbian entities, and other locations as required, ensuring all key deadlines are met. Execute journal entries, accruals, and maintain sub-ledger records. Perform timely balance sheet reconciliations and support SOX compliance. Global SaaS company with offices worldwide.",
+      "found_date": "2026-03-15T18:00:00",
+      "search_query": "Revenue Accountant Remote Worldwide",
+      "status": "new",
+      "notes": "",
+      "requirements": [
+        "Senior accounting experience",
+        "Month-end close expertise",
+        "Balance sheet reconciliation skills",
+        "SOX compliance knowledge",
+        "Multi-entity accounting experience",
+        "Located in Poland"
+      ],
+      "job_type": "Full-time",
+      "posted_date": "2026-03-08"
+    },
+    {
+      "id": "6g7h8i9j0k1l",
+      "title": "Senior Revenue Accountant (LATAM)",
+      "company": "GitLab",
+      "location": "Remote - Latin America (LATAM region)",
+      "salary": "Not disclosed",
       "platform": "himalayas",
-      "url": "https://himalayas.app/companies/virtuestaff/jobs/senior-accountant-4573156783",
-      "description": "Manage high-level accounting duties including core bookkeeping, AP/AR, and financial control responsibilities. Oversee month-end and year-end close, handle Purchase Order processes, expense management, and client account auditing. Report directly to CFO and executive leadership.",
-      "found_date": "2026-03-15T16:53:23.763597",
+      "url": "https://himalayas.app/companies/gitlab/jobs/senior-revenue-accountant-latam",
+      "description": "Part of the Revenue Accounting Team responsible for Worldwide Revenue Accounting at GitLab. Apply ASC 606 and company revenue recognition policies, review and summarize customer contracts for proper revenue recognition, and be a key contributor in the monthly financial close. GitLab is one of the world's largest all-remote companies with 2,000+ team members.",
+      "found_date": "2026-03-15T18:00:00",
+      "search_query": "Revenue Accountant Remote Worldwide",
+      "status": "new",
+      "notes": "",
+      "requirements": [
+        "Bachelor's degree in Accounting, Business, Finance or equivalent",
+        "Strong working knowledge of US GAAP and ASC 606",
+        "3-5 years of related accounting experience",
+        "Public company accounting experience a plus",
+        "NetSuite, Zuora or Revpro experience an advantage",
+        "Located in Latin America (LATAM)"
+      ],
+      "job_type": "Full-time",
+      "posted_date": "2026-03-10"
+    },
+    {
+      "id": "2m3n4o5p6q7r",
+      "title": "Senior Accountant",
+      "company": "Checkfront",
+      "location": "Remote - Canada",
+      "salary": "$70,000 - $80,000 CAD",
+      "platform": "remotive",
+      "url": "https://remotive.com/remote/jobs/finance/senior-accountant-3867775",
+      "description": "Support the financial reporting process related to Revenue through monthly close procedures, ensuring accuracy and completeness of internal and external reporting. Monitor compliance with internal policies, prepare financial analyses, maintain records and reconciliations. Checkfront builds booking software for travel brands spanning North America, Europe, and Asia-Pacific.",
+      "found_date": "2026-03-15T18:00:00",
+      "search_query": "Senior Accountant Remote Worldwide",
+      "status": "new",
+      "notes": "12-month contract position",
+      "requirements": [
+        "Senior accounting experience",
+        "Revenue accounting and month-end close skills",
+        "Financial reporting and reconciliation experience",
+        "Located in Canada",
+        "North America/Europe/APAC company with international client base"
+      ],
+      "job_type": "Contract",
+      "posted_date": "2026-03-14"
+    },
+    {
+      "id": "8s9t0u1v2w3x",
+      "title": "Remote Cash Applications Accounting Senior",
+      "company": "HireLATAM",
+      "location": "Remote - Latin America",
+      "salary": "Not disclosed",
+      "platform": "himalayas",
+      "url": "https://himalayas.app/companies/hirelatam/jobs/remote-cash-applications-accounting-senior",
+      "description": "Oversee and execute all cash application activities across the company's Service and Contracts divisions. HireLATAM is a premier recruitment agency that places top Latin American talent in independent contractor roles. Senior-level role requiring strong AR subledger management and reconciliation expertise.",
+      "found_date": "2026-03-15T18:00:00",
+      "search_query": "Revenue Accountant Remote Worldwide",
+      "status": "new",
+      "notes": "",
+      "requirements": [
+        "5+ years of cash application and accounting operations experience",
+        "Strong understanding of AR subledger management and reconciliation processes",
+        "Proficiency in ERP/accounting software",
+        "Advanced Excel skills",
+        "Located in Latin America"
+      ],
+      "job_type": "Full-time",
+      "posted_date": "2026-03-01"
+    },
+    {
+      "id": "4y5z6a7b8c9d",
+      "title": "Group Senior Accountant",
+      "company": "Eyeo",
+      "location": "Remote - Munich / Germany (or remote within Europe)",
+      "salary": "Not disclosed",
+      "platform": "himalayas",
+      "url": "https://himalayas.app/companies/eyeo/jobs/group-senior-accountant-munich-remote-4667486023",
+      "description": "Assist the Senior Accounting Manager or Corporate Controller in developing accounting policies and processes, lead compliance with statutory reporting requirements, provide support with special inquiries and analysis, and collaborate with various teams to ensure accurate accounting data. The international accounting team is half based in Cologne and half remote. Company prioritizes work-life balance.",
+      "found_date": "2026-03-15T18:00:00",
       "search_query": "Senior Accountant Remote Worldwide",
       "status": "new",
       "notes": "",
       "requirements": [
-        "Thorough, independent experience in a controller-type role",
-        "Comfortable managing all aspects of the accounting cycle",
-        "AP and AR management experience",
-        "Weekly and detailed financial reporting skills",
-        "Direct CFO reporting experience"
+        "Senior accounting experience",
+        "Statutory reporting and compliance knowledge",
+        "Ability to develop accounting policies and processes",
+        "Cross-functional collaboration skills",
+        "Located in Munich or remote within Europe"
       ],
       "job_type": "Full-time",
-      "posted_date": "2026-01-15"
-    },
-    {
-      "id": "deel001",
-      "title": "Senior Accountant I",
-      "company": "Deel",
-      "location": "Remote \u2014 Worldwide",
-      "salary": "Not listed",
-      "platform": "himalayas",
-      "url": "https://himalayas.app/companies/deel/jobs/senior-accountant-i",
-      "description": "Global payroll and HR platform hiring a Senior Accountant. Fast-growing unicorn company with fully distributed team across 100+ countries.",
-      "requirements": [
-        "3+ years accounting",
-        "Multi-currency accounting",
-        "SaaS/tech company experience",
-        "GAAP & IFRS knowledge",
-        "High-growth company experience"
-      ],
-      "job_type": "Full-time",
-      "posted_date": "2026-01-10",
-      "found_date": "2026-03-15T15:20:00",
-      "search_query": "Senior Accountant Remote",
-      "status": "new",
-      "notes": ""
+      "posted_date": "2026-03-01"
     }
   ],
-  "last_updated": "2026-03-15T17:25:37.278373",
-  "total_searches": 5
+  "last_updated": "2026-03-15T18:00:00",
+  "total_searches": 8
 }
